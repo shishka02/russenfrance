@@ -1,0 +1,71 @@
+<?php
+
+
+/**
+ * Implements hook_form_alter().
+ */
+//function ref_search_form_alter(&$form, &$form_state, $form_id){
+  ////dd($form_id);
+  //if($form_id == 'views_exposed_form' && $form_state['view']->name == 'russenfrance_search') {
+    ////dsm($form);
+    ////dsm($form_state);
+       
+  //}
+//}
+
+/**
+ * Implements hook_views_api().
+ */
+function ref_search_views_api() {
+  return array(
+    'api' => '3.0',
+  );
+}
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function ref_search_views_data_alter(&$data) {
+  if(module_exists('shs') && !empty($data['search_api_index_ref_ad_search']['field_ref_category'])) {
+    $data['search_api_index_ref_ad_search']['field_ref_category']['filter']['handler'] = 'REFSearchViewsHandlerFilterSHSTaxonomyTerm';
+  }
+  
+  if(!empty($data['search_api_index_ref_ad_search']['field_ref_address_postal_code'])) {
+    $data['search_api_index_ref_ad_search']['field_ref_address_postal_code']['filter']['handler'] = 'REFSearchViewsHandlerFilterPostalCode';
+  }
+  
+  if(!empty($data['search_api_index_ref_ad_search']['field_ref_address_administrative_area'])) {
+    $data['search_api_index_ref_ad_search']['field_ref_address_administrative_area']['filter']['handler'] = 'REFSearchViewsHandlerFilterAdministrativeArea';
+  }
+}
+
+/**
+ * Implements hook_form_views_exposed_form_alter().
+ */
+function ref_search_form_views_exposed_form_alter(&$form, $form_state, $form_id) {
+  if ($form_id == 'views_exposed_form' && $form['#id'] == 'views-exposed-form-russenfrance-search-page') {
+    $form['region']['#options']['All'] = t('- Регион -');
+    
+    // default value
+    $form['search']['#attributes']['placeholder'] = t('Введите поисковую фразу');
+    $form['address']['#attributes']['placeholder'] = t('Введите код или город');
+  }
+}
+
+/**
+ * Implements hook_taxonomy_menu_path().
+ */
+function ref_search_taxonomy_menu_path() {
+  $output = array(
+    'ref_search_get_taxonomy_menu_path' => t('Russenfrance path to search'),
+  );
+
+  return $output;
+}
+
+/**
+ * Callback for hook_taxonomy_menu_path.
+ */
+function ref_search_get_taxonomy_menu_path($vid, $tid) {
+  return 'search/ad?category='.$tid;
+}

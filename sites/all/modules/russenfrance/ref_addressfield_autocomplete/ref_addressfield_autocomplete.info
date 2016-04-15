@@ -1,0 +1,6 @@
+name = Russenfrance addressfield autocomplete
+description = "Define extra widget for autocomplete field for autoload France cities and postal codes"
+package = Russenfrance
+core = 7.x
+dependencies[] = addressfield
+

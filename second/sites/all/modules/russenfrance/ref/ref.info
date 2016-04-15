@@ -1,0 +1,5 @@
+name = Russenfrance
+description = "Custom things for Russenfrance site"
+package = Russenfrance
+core = 7.x
+

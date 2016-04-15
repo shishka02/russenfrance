@@ -1,0 +1,17 @@
+name = Russenfrance Ad Search Feature
+core = 7.x
+package = Russenfrance
+version = 7.x-1.0
+dependencies[] = custom_breadcrumbs_features
+dependencies[] = custom_breadcrumbs_views
+dependencies[] = entity
+dependencies[] = search_api
+dependencies[] = search_api_db
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[custom_breadcrumbs_views][] = search_ad
+features[features_api][] = api:2
+features[search_api_index][] = ref_ad_search
+features[search_api_server][] = ref_db_server
+features[views_view][] = russenfrance_search
+features_exclude[dependencies][ctools] = ctools

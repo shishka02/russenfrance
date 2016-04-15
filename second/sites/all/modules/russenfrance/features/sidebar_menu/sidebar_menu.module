@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the sidebar_menu feature.
+ */
+
+include_once 'sidebar_menu.features.inc';

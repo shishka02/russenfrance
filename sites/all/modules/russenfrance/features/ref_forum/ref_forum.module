@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the ref_forum feature.
+ */
+
+include_once 'ref_forum.features.inc';

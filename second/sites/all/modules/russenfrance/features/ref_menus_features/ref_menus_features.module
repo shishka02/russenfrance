@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the russenfrance menus feature.
+ */
+
+include_once 'ref_menus_features.features.inc';

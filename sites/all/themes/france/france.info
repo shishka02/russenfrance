@@ -1,0 +1,19 @@
+name = france
+description = new themes for drupal france
+package = Core
+version = VERSION
+core = 7.x
+engine      = phptemplate
+stylesheets[all][] = style.css
+
+regions[header_menu] = Меню в шапке сайта
+regions[main_banner] = left banner
+regions[left_sidebar] = sidebar
+regions[right] = right
+regions[map] = map
+regions[login] = login
+regions[yellow_pages] = yellow_pages
+regions[podat_zayavku] = podat_zayavku
+regions[languages] = languages
+regions[slide_show] = слайды
+regions[content] = Content

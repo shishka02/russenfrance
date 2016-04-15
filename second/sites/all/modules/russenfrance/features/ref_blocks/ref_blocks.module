@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Russenfrance Blocks feature.
+ */
+
+include_once 'ref_blocks.features.inc';

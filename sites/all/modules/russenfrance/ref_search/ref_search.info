@@ -1,0 +1,12 @@
+name = Russenfrance Search
+description = "Custom things for search"
+package = Russenfrance
+core = 7.x
+dependencies[] = search_api
+dependencies[] = ref_ad
+dependencies[] = ref_addressfield_autocomplete
+
+; Views handlers/plugins
+files[] = includes/ref_search_handler_filter_shs_taxonomy_term.inc
+files[] = includes/ref_search_handler_filter_postal_code.inc
+files[] = includes/ref_search_handler_filter_administrative_area.inc

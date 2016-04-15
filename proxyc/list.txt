@@ -1,0 +1,8 @@
+http://www.ultrasurf.org/tags/proxy-list-2/
+http://www.ultrasurf.org/
+http://proxysearcher.sourceforge.net/ProxyList.php?type=http
+http://www.seogadget.ru/proxy-servers
+http://elitesocksproxy.blogspot.com/feeds/posts/default
+http://wm-bot.com/proxy/
+http://vk.com/proxy_sock4_sock5
+http://xseo.in/freeproxy

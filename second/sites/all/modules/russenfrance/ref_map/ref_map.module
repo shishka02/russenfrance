@@ -1,0 +1,57 @@
+<?php
+
+
+/**
+ * Implements hook_block_info().
+ */
+function ref_map_block_info() {
+  // This example comes from node.module.
+  $blocks['map'] = array(
+    'info' => t('JS France Map'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ref_map_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'map':
+      $block['subject'] = '';
+      $block['content'] = '<div id="ref-map-wrapper"><div id="ref-map"></div>';
+      drupal_add_js(drupal_get_path('module', 'ref_map') . '/js/raphael-min.js');
+      drupal_add_js(drupal_get_path('module', 'ref_map') . '/js/map.js');
+      
+      module_load_include('inc', 'ref_map', 'ref_map.regions');
+      module_load_include('inc', 'ref_addressfield_autocomplete', 'ref_addressfield_autocomplete.regions.fr');
+      
+      $regions_coordinates = ref_map_get_regions_coordinates();
+      $regions = ref_addressfield_autocomplete_get_regions_fr();
+      
+      $regions["provence-alpes-cote-dazur"] = t('P.A.C.A.'); // just change for map!
+      
+      $regions_js = $regions_out = array();
+      foreach($regions_coordinates as $key => $coordinates) {
+        $regions_js[$key] = array(
+          'coordinates' => $coordinates,
+          'name' => $regions[$key],
+          'url' => url('search/ad', array('query' => array('region' => $key))),
+          'key' => $key,
+        );
+        $regions_out[] = array('data' => l($regions[$key], 'search/ad', array('query' => array('region' => $key), 'attributes' => array('data-region' => $key))));
+      }
+      
+      $block['content'] .= theme('item_list', array('items' => $regions_out, 'attributes' => array('class' => array('regions-names'))));
+      $block['content'] .= '</div>';
+      
+      drupal_add_js(array('ref_map' => array('regions' => $regions_js)), 'setting');
+
+      break;
+  }
+  return $block;
+}

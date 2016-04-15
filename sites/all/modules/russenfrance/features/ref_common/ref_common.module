@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Russenfrance Common Features feature.
+ */
+
+include_once 'ref_common.features.inc';

@@ -1,0 +1,5 @@
+name = Russenfrance Map
+description = "JS France Map"
+package = Russenfrance
+core = 7.x
+dependencies[] = ref_search

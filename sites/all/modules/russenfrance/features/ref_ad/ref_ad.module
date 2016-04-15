@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Russenfrance Ad Feature feature.
+ */
+
+include_once 'ref_ad.features.inc';

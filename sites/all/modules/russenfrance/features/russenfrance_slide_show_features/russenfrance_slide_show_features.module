@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the russenfrance slide_show Features feature.
+ */
+
+include_once 'russenfrance_slide_show_features.features.inc';

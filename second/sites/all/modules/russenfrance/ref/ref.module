@@ -1,0 +1,74 @@
+<?php
+
+
+/**
+ * Implements hook_language_switch_links_alter().
+ */
+function ref_language_switch_links_alter(&$links, $type, $path) {
+  foreach ($links as &$language) {
+    $language['title'] .= ' '.strtoupper($language['language']->language);
+  }
+}
+
+/**
+ * Implements hook_feeds_processor_targets_alter().
+ */
+//function ref_feeds_processor_targets_alter(&$targets, $type, $bundle) {
+  //if ($type == 'node' && $bundle == 'feed_item') {
+    //$targets['enclosure'] = array(
+      //'name' => t('Enclosure Field'),
+      //'description' => t('This is image field.'),
+      //'callback' => 'ref_feeds_processo_enclosure', // See 2)
+    //);
+  //}
+//}
+
+/**
+ * Mapping callback.
+ */
+//function ref_feeds_processo_enclosure($source, $entity, $target, $value, $mapping) {
+  //$entity->{$target}[$entity->language][0]['value'] = $value;
+  //if (isset($source->importer->processor->config['input_format'])) {
+    //$entity->{$target}[$entity->language][0]['format'] =
+      //$source->importer->processor->config['input_format'];
+  //}
+//}
+
+
+///**
+ //* Implements hook_feeds_parser_sources_alter().
+ //*/
+//function ref_feeds_parser_sources_alter(&$sources, $content_type) {
+  ////dsm($sources);
+  ////dsm($content_type);
+  //if($content_type == 'feed') {
+    //$sources['enclosure'] = array(
+      //'name' => t('Enclosure element'),
+      //'description' => t('Image in the enclosure element of a feed item.'),
+      //'callback' => 'ref_enclosure_get_source',
+    //);
+  //}
+//}
+
+//function ref_enclosure_get_source(FeedsSource $source, FeedsParserResult $result, $key) {
+  ////dsm($source);
+  ////dsm($result);
+  ////dsm($key);
+  
+  ////$source->importer->parser->parse($source, $source->fetcher_result);
+  
+  
+  //$item = $result->currentItem();
+  ////$value = $item->get_item_tags(SIMPLEPIE_NAMESPACE_RSS_20, 'source-nid')
+  //dsm($item);
+  
+  //return FALSE;
+  ////return my_source_parse_images($item['description']);
+//}
+
+//function ref_feeds_after_parse(FeedsSource $source, FeedsParserResult $result) {
+  //// For example, set title of imported content:
+  //dsm($source);
+  //dsm($result);
+  ////$result->title = 'Import number ' . my_module_import_id();
+//}

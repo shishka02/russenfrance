@@ -1,0 +1,238 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the russenfrance addressfield autocomplete module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ref_addressfield_autocomplete_schema() {
+  // Table of departments
+  $schema['ref_fr_departments'] = array(
+    'description' => 'Table with all France departments',
+    'fields' => array(
+      'did' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'code' => array(
+        'type' => 'char',
+        'length' => 5,
+        'not null' => TRUE,
+      ),
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'name_slug' => array(
+        'type' => 'varchar',
+        'length' => 100,
+      ),
+    ),
+    'unique keys' => array(
+      'code' => array('code'),
+    ),
+    'indexes' => array(
+      'name' => array('name'),
+      'name_slug' => array('name_slug'),
+    ),
+    'primary key' => array('did'),
+  );
+
+  // Table for cities.
+  $schema['ref_fr_cities'] = array(
+    'description' => 'Table with all cities of France',
+    'fields' => array(
+      'cid' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'dep_code' => array(
+        'type' => 'char',
+        'length' => 5,
+        'not null' => TRUE,
+      ),
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'name_slug' => array(
+        'type' => 'varchar',
+        'length' => 100,
+      ),
+      'postal_code' => array(
+        'type' => 'char',
+        'length' => 5,
+        'not null' => TRUE,
+      ),
+    ),
+    'indexes' => array(
+      'name' => array('name'),
+      'name_slug' => array('name_slug'),
+      'postal_code' => array('postal_code'),
+    ),
+    'primary key' => array('cid'),
+  );
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ * Delete table with name and postal code of all french cities.
+ */
+//function ref_addressfield_autocomplete_uninstall() {
+  // No longer necessary in Drupal 7.
+  // http://drupal.org/update/modules/6/7
+  //drupal_uninstall_schema('addressfield_fr');
+//}
+
+/**
+ * Implements hook_install().
+ * Store into the database name and postal code of all french cities.
+ */
+function ref_addressfield_autocomplete_install() {
+  //$dir = dirname(__FILE__);
+  //$file_path = "$dir/Cities_of_France.csv";
+
+  // Import new content.
+  //_ref_addressfield_autocomplete_batch_operations_for_import_csv($file_path, 'admin/modules');
+}
+
+/**
+ * Create France departments table and fill data
+ */
+function ref_addressfield_autocomplete_update_7001(&$sandbox) {
+  if (!isset($sandbox['progress'])) {
+    // create table
+    if(!db_table_exists('ref_fr_departments')) {
+      $schema = ref_addressfield_autocomplete_schema();
+      db_create_table('ref_fr_departments', $schema['ref_fr_departments']);
+    }
+    db_truncate('ref_fr_departments')->execute();
+    
+    $sandbox['progress'] = 0;
+
+    $dir = dirname(__FILE__);
+    $file_path = "$dir/departement.csv";
+    $sandbox['file'] = fopen($file_path, 'r');
+  }
+
+  $sandbox['#finished'] = FALSE;
+  $departments = array();
+  while ($line = fgetcsv($sandbox['file'])) {
+    $departments[] = array(
+      'code' => strtolower(trim($line[1])),
+      'name' => trim($line[2]),
+      'name_slug' => trim($line[4]),
+    );
+
+    $sandbox['progress']++;
+    
+    if($sandbox['progress'] % 50 == 0) {
+      $query = db_insert('ref_fr_departments')->fields(array('code', 'name', 'name_slug'));
+      foreach ($departments as $department) {
+        $query->values($department);
+      }
+      $query->execute();
+      $departments = array();
+    }
+    
+    if($sandbox['progress'] % 500 == 0) {
+      return;
+    }
+  }
+  
+  if(count($departments)) {
+    $query = db_insert('ref_fr_departments')->fields(array('code', 'name', 'name_slug'));
+    foreach ($departments as $department) {
+      $query->values($department);
+    }
+    $query->execute();
+  }
+  
+  fclose($sandbox['file']);
+  $sandbox['#finished'] = TRUE;
+
+  return t('!count departments inserted into db.', array('!count' => $sandbox['progress']));
+}
+
+/**
+ * Create France cities table and fill data
+ */
+function ref_addressfield_autocomplete_update_7002(&$sandbox) {
+  if (!isset($sandbox['progress'])) {
+    // create table
+    if(!db_table_exists('ref_fr_cities')) {
+      $schema = ref_addressfield_autocomplete_schema();
+      db_create_table('ref_fr_cities', $schema['ref_fr_cities']);
+    }
+    db_truncate('ref_fr_cities')->execute();
+    
+    $sandbox['progress'] = 0;
+    $sandbox['offset'] = 0;
+  }
+
+  $dir = dirname(__FILE__);
+  $file_path = "$dir/villes_france.csv";
+  $f = fopen($file_path, 'r');
+  $ret = fseek($f, $sandbox['offset']);
+
+  $sandbox['#finished'] = FALSE;
+  $cities = array();
+  while ($line = fgetcsv($f)) {
+    $dep_code = strtolower(trim($line[1]));
+    if(strlen($dep_code) == 1) {
+      $dep_code = '0'.$dep_code;
+    }
+    
+    $postal_codes_str = trim($line[8]);
+    $postal_codes = explode('-', $postal_codes_str);
+    foreach($postal_codes as $postal_code) {
+      if(strlen($postal_code) == 4) {
+        $postal_code = '0'.$postal_code;
+      }
+      $cities[] = array(
+        'dep_code' => $dep_code,
+        'name' => trim($line[5]),
+        'name_slug' => trim($line[4]),
+        'postal_code' => $postal_code,
+      );
+    }
+
+    $sandbox['progress']++;
+    
+    if($sandbox['progress'] % 50 == 0) {
+      $query = db_insert('ref_fr_cities')->fields(array('dep_code', 'name', 'name_slug', 'postal_code'));
+      foreach ($cities as $city) {
+        $query->values($city);
+      }
+      $query->execute();
+      $cities = array();
+    }
+    
+    if($sandbox['progress'] % 500 == 0) {
+      $sandbox['offset'] = ftell($f);
+      fclose($f);
+      return;
+    }
+  }
+  
+  if(count($cities)) {
+    $query = db_insert('ref_fr_cities')->fields(array('dep_code', 'name', 'name_slug', 'postal_code'));
+    foreach ($cities as $city) {
+      $query->values($city);
+    }
+    $query->execute();
+  }
+  
+  fclose($f);
+  $sandbox['#finished'] = TRUE;
+
+  return t('!count cities inserted into db.', array('!count' => $sandbox['progress']));
+}
