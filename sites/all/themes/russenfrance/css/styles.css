@@ -201,7 +201,7 @@ hr {
 /** WRAPPER */
 
 #wrapper_top {
-	width:1440px
+	
 }
 
 .container {
@@ -1246,8 +1246,8 @@ li.call_back_link p {
 }
 .node-teaser .fa-map-marker{
 	position: relative;
-    top: 41px;
-    left: -17px;
+    top: 20px;
+    left: -8px;
 }
 .page-search .three-column{
 	
@@ -1497,21 +1497,26 @@ ul.links.inline{
   color: #fff;
 }
 .node-teaser header{
-	display:inline-block;
-	display: inline-block;
-    position: relative;
-    right: 53px;
+	
+   
 }
 .node-teaser .submitted-by{
 	position: relative;
-    right: 46px;
+   display:inline-block;
+}
+.page-search-ad ..field.field-name-field-ref-price.field-type-number-decimal.field-label-hidden{
+	display: inline-block;
+    position: relative;
+    float: right;
+   top: -32px;
+    left: -5px;
 }
 
 .field.field-name-field-ref-price.field-type-number-decimal.field-label-hidden{
 	display: inline-block;
     position: relative;
     float: right;
-   
+  
 }
 
 /*OTHER STORIES*/
@@ -1979,6 +1984,36 @@ li.comment-add:hover{
 	color: #ec3120;
 	padding-bottom: 6px;
 }
+.buttons a:hover{
+	border-bottom:4px solid #ec3120;
+}
+.buttons a{
+	 padding-left: 7px;
+    padding-right: 4px;
+    font-family: 'PT Sans','PT Sans Narrow',Arial,Helvetica,serif;
+    color: #14273f;
+    line-height: 50px;
+    padding-bottom: 0;
+    font-size: 14pt;
+    padding-bottom: 0px;
+    border-left: 3px solid #F76558;
+    border-right: 5px solid #fff;
+	font-weight: bold;
+}
+.buttons a:hover{
+	color: #ec3120;
+	padding-bottom: 6px;
+	text-decoration: none;
+}
+ul.buttons{
+	list-style:none;
+}
+.buttons li{
+	float:left;
+}
+.buttons li:last-of-type{
+	float:none;
+}
 .view-russenfrance-stories .views-row .views-field-title .field-content{
 	font-size:14pt;
 	font-weight:bold;
@@ -2036,7 +2071,21 @@ li.comment-add:hover{
 .view-russenfrance-stories > .view-content .views-row{
 	border-bottom: 1px solid #ddd
 }
-
+.view-russenfrance-stories .views-row .views-field-field-miniature-nedvishzimost .field-content{
+	float:left;
+	margin: 3px 8px 0 0;
+}
+.view-russenfrance-stories .views-row .views-field-field-miniature-nedvishzimost .field-content img{
+	border:0.15em solid #fff;
+	margin-top:10px;
+}
+.view-russenfrance-stories .views-row .views-field-field-miniature-nedvishzimost .field-content img:hover{
+	border:0.15em solid #ec3120;
+}
+.node-ref-feed-news.view-mode-full .views-field-field-miniature-nedvishzimost{
+	float: left;
+    margin-right: 20px;
+}
 
 
 /* FORUM */
@@ -2443,6 +2492,8 @@ i {
 	float:none;
 }
 .city-list .col-2{
+	display: table-cell;
+	vertical-align: top;
 	border:none;
 	float:none;
 	    padding: 0px 15px;
