@@ -1103,7 +1103,7 @@ li.call_back_link p {
 }
 .three-column{
 	display:inline-block;
-    margin: 21px 0 0 10%;
+    margin: 21px 0 50px 10%;
    
     padding: 0;
 }
@@ -1243,10 +1243,11 @@ li.call_back_link p {
 }
 .node-teaser .field-name-field-ref-address .field-label{
 	float:left;
+	margin-left:10px
 }
 .node-teaser .fa-map-marker{
 	position: relative;
-    top: 20px;
+    top: 25px;
     left: -8px;
 }
 .page-search .three-column{

@@ -84,19 +84,6 @@ function ref_common_metatag_export_default() {
     ),
   );
 
-  // Exported Metatag config instance: taxonomy_term.
-  $config['taxonomy_term'] = array(
-    'instance' => 'taxonomy_term',
-    'config' => array(
-      'title' => array(
-        'value' => '[term:name] | [site:name]',
-      ),
-      'description' => array(
-        'value' => '[term:description]',
-      ),
-    ),
-  );
-
   // Exported Metatag config instance: user.
   $config['user'] = array(
     'instance' => 'user',
