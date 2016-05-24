@@ -88,6 +88,9 @@
         <ul class="action-links"><?php print render($action_links); ?></ul>
       <?php endif; ?>
       <?php print render($page["content"]);?>
+	  <div id="slide_show">
+		<?php print render($page["slide_show"]);?>
+		</div>
 		</div>
 		
 		
